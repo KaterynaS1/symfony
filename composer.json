@@ -12,6 +12,7 @@
         "doctrine/dbal": "^3",
         "doctrine/doctrine-bundle": "^2.18",
         "doctrine/doctrine-migrations-bundle": "^3.7",
+        "doctrine/migrations": "^3.9",
         "doctrine/orm": "^3.5",
         "runtime/frankenphp-symfony": "^0.2.0",
         "symfony/console": "7.3.*",
@@ -73,6 +74,7 @@
         }
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^4.3",
         "symfony/maker-bundle": "^1.64"
     }
 }
