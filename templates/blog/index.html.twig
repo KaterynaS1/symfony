@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Mój Blog</title>
+
+    <link rel="stylesheet" href="/css/blog.css">
+</head>
+<body>
+
+<header class="header">
+    <h1>Mój Blog ✨</h1>
+    <p>O książkach | <a href="{{ path('my_profile') }}">Mój profil</a></p>
+</header>
+
+<main class="container">
+    {% for article in articles %}
+        <article class="post">
+            <h2>{{ article.title }}</h2>
+            <p>{{ article.description }}</p>
+            <small>Dodano: {{ article.dateAdded|date('Y-m-d') }}</small>
+        </article>
+    {% else %}
+        <p>Brak artykułów do wyświetlenia.</p>
+    {% endfor %}
+</main>
+
+<footer class="footer">
+    <p>© 2026 Mój Blog</p>
+</footer>
+
+</body>
+</html>
