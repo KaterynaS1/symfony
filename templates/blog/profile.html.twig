@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Mój Profil</title>
+    <link rel="stylesheet" href="/css/blog.css">
+</head>
+<body>
+
+<header class="header">
+    <h1>Mój Profil ✨</h1>
+    <p>Informacje o blogerze</p>
+</header>
+
+<main class="container">
+    {% if blogger %}
+        <p><strong>Imię:</strong> {{ blogger.name }}</p>
+        <p><strong>Wiek:</strong> {{ blogger.age }}</p>
+
+        <h2>Artykuły tego blogera:</h2>
+        <ul>
+            {% for article in blogger.articles %}
+                <li>{{ article.title }} ({{ article.dateAdded|date('Y-m-d') }})</li>
+            {% else %}
+                <li>Brak artykułów</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nie znaleziono blogera.</p>
+    {% endif %}
+
+    <p><a href="{{ path('main_page') }}">Powrót na stronę główną</a></p>
+</main>
+
+<footer class="footer">
+    <p>© 2026 Mój Blog</p>
+</footer>
+
+</body>
+</html>
