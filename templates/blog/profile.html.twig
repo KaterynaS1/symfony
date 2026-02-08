@@ -9,7 +9,6 @@
 
 <header class="header">
     <h1>Mój Profil ✨</h1>
-    <p>Informacje o blogerze</p>
 </header>
 
 <main class="container">
@@ -17,10 +16,12 @@
         <p><strong>Imię:</strong> {{ blogger.name }}</p>
         <p><strong>Wiek:</strong> {{ blogger.age }}</p>
 
-        <h2>Artykuły tego blogera:</h2>
+        <h2>Artykuły:</h2>
         <ul>
             {% for article in blogger.articles %}
-                <li>{{ article.title }} ({{ article.dateAdded|date('Y-m-d') }})</li>
+                <li>
+                    {{ article.title }} ({{ article.dateAdded|date('Y-m-d') }})
+                </li>
             {% else %}
                 <li>Brak artykułów</li>
             {% endfor %}
@@ -29,7 +30,9 @@
         <p>Nie znaleziono blogera.</p>
     {% endif %}
 
-    <p><a href="{{ path('main_page') }}">Powrót na stronę główną</a></p>
+    <p>
+        <a href="{{ path('main_page') }}">Powrót na stronę główną</a>
+    </p>
 </main>
 
 <footer class="footer">

@@ -3,10 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\BloggerRepository;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Entity\Article;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BloggerRepository::class)]
 class Blogger
@@ -22,7 +21,7 @@ class Blogger
     #[ORM\Column]
     private ?int $age = null;
 
-    #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: "bloggerName")]
+    #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'bloggerName')]
     private Collection $articles;
 
     public function __construct()
@@ -57,11 +56,27 @@ class Blogger
         return $this;
     }
 
-    /**
-     * @return Collection<int, Article>
-     */
     public function getArticles(): Collection
     {
         return $this->articles;
+    }
+
+    public function addArticle(Article $article): static
+    {
+        if (!$this->articles->contains($article)) {
+            $this->articles->add($article);
+            $article->addBloggerName($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(Article $article): static
+    {
+        if ($this->articles->removeElement($article)) {
+            $article->removeBloggerName($this);
+        }
+
+        return $this;
     }
 }

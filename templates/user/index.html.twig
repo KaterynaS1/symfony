@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>User API</title>
+</head>
+<body>
+
+<h1>Podgląd API: /api/users/show</h1>
+
+<p>
+    Token JWT (wklej raz, zostanie zapisany w przeglądarce):
+</p>
+
+<input id="token" type="text" style="width: 100%;" placeholder="wklej token JWT tutaj">
+<button id="save">Zapisz token</button>
+<button id="clear">Usuń token</button>
+
+<hr>
+
+<button id="load">Pobierz dane użytkownika</button>
+
+<pre id="out"></pre>
+
+<script>
+    const tokenInput = document.getElementById('token');
+    const out = document.getElementById('out');
+
+    tokenInput.value = localStorage.getItem('jwt') || '';
+
+    document.getElementById('save').addEventListener('click', () => {
+        localStorage.setItem('jwt', tokenInput.value.trim());
+        out.textContent = 'Zapisano token.';
+    });
+
+    document.getElementById('clear').addEventListener('click', () => {
+        localStorage.removeItem('jwt');
+        tokenInput.value = '';
+        out.textContent = 'Usunięto token.';
+    });
+
+    document.getElementById('load').addEventListener('click', async () => {
+        const token = localStorage.getItem('jwt');
+
+        if (!token) {
+            out.textContent = 'Brak tokena. Wklej token i kliknij "Zapisz token".';
+            return;
+        }
+
+        const res = await fetch('/api/users/show', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        });
+
+        const text = await res.text();
+        out.textContent = text;
+    });
+</script>
+
+</body>
+</html>

@@ -2,31 +2,47 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Mój Blog</title>
-
+    <title>Strona główna</title>
     <link rel="stylesheet" href="/css/blog.css">
 </head>
 <body>
 
 <header class="header">
-    <h1>Mój Blog ✨</h1>
-    <p>O książkach | <a href="{{ path('my_profile') }}">Mój profil</a></p>
+    <h1>Strona główna ✨</h1>
+
+    {% if app.user %}
+        <a href="{{ path('app_logout') }}">Wyloguj się</a>
+    {% else %}
+        <a href="{{ path('app_login') }}">Zaloguj się</a>
+    {% endif %}
 </header>
 
 <main class="container">
     {% for article in articles %}
         <article class="post">
             <h2>{{ article.title }}</h2>
+
             <p>{{ article.description }}</p>
+
             <small>Dodano: {{ article.dateAdded|date('Y-m-d') }}</small>
+
+            {% if article.bloggerName is not empty %}
+                <p>
+                    Autor:
+                    <a href="{{ path('my_profile', { id: article.bloggerName|first.id }) }}">
+                        {{ article.bloggerName|first.name }}
+                    </a>
+                </p>
+            {% endif %}
         </article>
+        <hr>
     {% else %}
         <p>Brak artykułów do wyświetlenia.</p>
     {% endfor %}
 </main>
 
 <footer class="footer">
-    <p>© 2026 Mój Blog</p>
+    <p>© 2026</p>
 </footer>
 
 </body>

@@ -22,10 +22,7 @@ class Article
     #[ORM\Column(length: 2000)]
     private ?string $description = null;
 
-    /**
-     * @var Collection<int, Blogger>
-     */
-    #[ORM\ManyToMany(targetEntity: Blogger::class)]
+    #[ORM\ManyToMany(targetEntity: Blogger::class, inversedBy: 'articles')]
     private Collection $bloggerName;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
@@ -49,7 +46,6 @@ class Article
     public function setTitle(string $title): static
     {
         $this->title = $title;
-
         return $this;
     }
 
@@ -61,30 +57,29 @@ class Article
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
-    /**
-     * @return Collection<int, Blogger>
-     */
     public function getBloggerName(): Collection
     {
         return $this->bloggerName;
     }
 
-    public function addBloggerName(Blogger $bloggerName): static
+    public function addBloggerName(Blogger $blogger): static
     {
-        if (!$this->bloggerName->contains($bloggerName)) {
-            $this->bloggerName->add($bloggerName);
+        if (!$this->bloggerName->contains($blogger)) {
+            $this->bloggerName->add($blogger);
+            $blogger->addArticle($this);
         }
 
         return $this;
     }
 
-    public function removeBloggerName(Blogger $bloggerName): static
+    public function removeBloggerName(Blogger $blogger): static
     {
-        $this->bloggerName->removeElement($bloggerName);
+        if ($this->bloggerName->removeElement($blogger)) {
+            $blogger->removeArticle($this);
+        }
 
         return $this;
     }
