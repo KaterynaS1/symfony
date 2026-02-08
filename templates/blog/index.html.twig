@@ -18,13 +18,22 @@
 </header>
 
 <main class="container">
-    {% for article in articles %}
+    {% for item in articles %}
+        {% set article = item.article %}
+
         <article class="post">
-            <h2>{{ article.title }}</h2>
+            <h2>
+                <a href="{{ path('article_show', { id: article.id }) }}">
+                    {{ article.title }}
+                </a>
+            </h2>
 
             <p>{{ article.description }}</p>
 
-            <small>Dodano: {{ article.dateAdded|date('Y-m-d') }}</small>
+            <small>
+                Dodano: {{ article.dateAdded|date('Y-m-d') }}
+                · ⏱️ {{ item.readingTime }} min czytania
+            </small>
 
             {% if article.bloggerName is not empty %}
                 <p>
