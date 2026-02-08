@@ -3,14 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Formatter\UserFormatter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
 class UserController extends AbstractController
 {
-    #[Route('/api/users/show', name: 'app_user', methods: ['GET'])]
-    public function showUser(): JsonResponse
+    #[Route('/users/show', name: 'app_user', methods: ['GET'])]
+    public function showUser(UserFormatter $formatter): JsonResponse
     {
         $currentUser = $this->getUser();
 
@@ -25,10 +26,7 @@ class UserController extends AbstractController
         }
 
         return new JsonResponse([
-            'data' => [
-                'user_id' => $currentUser->getId(),
-                'user_email' => $currentUser->getEmail(),
-            ],
+            'data' => $formatter->format($currentUser),
             'messages' => null,
             'errors' => null,
             'statusCode' => 200,

@@ -1,0 +1,19 @@
+App\Entity\User:
+    properties:
+        email:
+            - NotBlank:
+                  message: "Email jest wymagany."
+            - Email:
+                  message: "Podaj poprawny adres email."
+            - Length:
+                  max: 180
+                  maxMessage: "Email może mieć maksymalnie {{ limit }} znaków."
+
+        password:
+            - NotBlank:
+                  message: "Hasło jest wymagane."
+            - Length:
+                  min: 4
+                  minMessage: "Hasło musi mieć co najmniej {{ limit }} znaków."
+                  max: 4096
+                  maxMessage: "Hasło może mieć maksymalnie {{ limit }} znaków."
